@@ -19,6 +19,28 @@ const generateSummaryDOM = function(incompleteTodos){
     document.querySelector('#summary').textContent = `You have ${incompleteTodos.length} todos left`
 }
 
+//removes todo by uid
+const removeTodo = function(uid){
+    const removeIndex = todos.findIndex(function(todo){
+        return todo.uid === uid
+    })
+
+    if (removeIndex > -1){
+        todos.splice(removeIndex, 1)
+    }
+}
+
+//toggles todo according to chackbox
+const toggleTodo = function(uid){
+    const todo = todos.find(function(todo){
+        return todo.uid === uid
+    })
+
+    if (todo !== undefined){
+        todo.completed = !todo.completed
+    }
+}
+
 //generates the todo DOM
 const generateTodoDOM = function(todo){
     const todoEl = document.createElement('div')
@@ -28,6 +50,12 @@ const generateTodoDOM = function(todo){
     
     //setup todo checkbox
     todoCheckBox.setAttribute('type', 'checkbox')
+    todoCheckBox.checked = todo.completed
+    todoCheckBox.addEventListener('change', function(){
+        toggleTodo(todo.uid)
+        saveTodos(todos)
+        renderTodos(todos, filters)
+    })
     todoEl.appendChild(todoCheckBox)
     
     //setup todo text
@@ -35,6 +63,11 @@ const generateTodoDOM = function(todo){
     todoEl.appendChild(todoText)
 
     //setup todo remove button
+    todoRemoveButton.addEventListener('click', function(){
+        removeTodo(todo.uid)
+        saveTodos(todos)
+        renderTodos(todos, filters)
+    })
     todoRemoveButton.textContent = 'x'
     todoEl.appendChild(todoRemoveButton)
 
