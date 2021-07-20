@@ -26,6 +26,7 @@ header {
     margin-top: 16px;
     margin-bottom: 48px;
     text-align: center;
+    min-width: 100vh;
 }
 
 header a {
