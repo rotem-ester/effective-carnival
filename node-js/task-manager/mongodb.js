@@ -13,12 +13,36 @@ MongoClient.connect(connectionURL, { useNewUrlParser: true }, (error, client) =>
 
     const db = client.db(databaseName)
 
-    db.collection('tasks').find({completed: true}).toArray((error, tasks) => {
-        if (error){
-            return console.log('error')
-        }
+    // mongodb update operators: $set $rename etc.
 
-        console.log(tasks)
+    // db.collection('users').updateOne({
+    //     _id: new mongodb.ObjectId("60f7f02958fc3784e6e7a6c0")
+    // }, {
+    //     $set: {
+    //         name: 'Revital',
+    //     }
+    // }).then((result) => {
+    //     console.log(result)
+    // }).catch((error) => {
+    //     console.log(error)
+    // })
+
+    // db.collection('tasks').updateMany({}, {
+    //     $set: {
+    //         completed: true
+    //     }
+    // }).then((result) => {
+    //     console.log(result)
+    // }).catch((error) => {
+    //     console.log(error)
+    // })
+
+    db.collection('users').deleteMany({
+        name: 'Rotem'
+    }).then((result) => {
+        console.log(result)
+    }).catch((error) => {
+        console.log(error)
     })
-    
+
 })
