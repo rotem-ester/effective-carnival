@@ -12,32 +12,32 @@ class LinkedList {
     #current
 
     constructor(head){
-        this.head = head
-        this.current = head
+        this.#head = head
+        this.#current = head
     }
 
     getHead() {
-        return this.head
+        return this.#head
     }
 
     getCurrent() {
-        return this.current
+        return this.#current
     }
 
     next() {
-        if (this.current === null) {
+        if (this.#current === null) {
             return null
         }
-        this.current = this.current.next
-        return this.current
+        this.#current = this.#current.next
+        return this.#current
     }
 
     reset() {
-        this.current = this.head
+        this.#current = this.#head
     }
 
     add(node) {
-        let current = this.head
+        let current = this.#head
         while(current && current.next !== null) {
             current = current.next
         }
@@ -46,10 +46,10 @@ class LinkedList {
     }
 
     delete(data) {
-        let current = this.head
+        let current = this.#head
         let prev = null
 
-        if (data === this.head.data) {
+        if (data === this.#head.data) {
             console.error('you cannot remove the head of the list!')
             return
         }
@@ -67,7 +67,7 @@ class LinkedList {
 
     flip() {
         let prev = null
-        let current = this.head.next
+        let current = this.#head.next
         let next = null
 
         while (current !== null) {
@@ -77,12 +77,28 @@ class LinkedList {
             current = next
         }
 
-        this.head.next = prev
+        this.#head.next = prev
+    }
+
+    recFlip(head, prev){
+        let curr = head
+        if(curr === this.#head){
+            curr = this.#head.next
+        }
+        if (curr === null){
+            this.#head.next = prev
+            return
+        }
+
+        const nextKeeper = curr.next
+        curr.next = prev
+        prev = curr
+        this.recFlip(nextKeeper, prev)
     }
 
     hasLoop() {
         const map = new Map()
-        let current = this.head
+        let current = this.#head
 
         while(current.next !== null && !map.get(current.next)){
             map.set(current.next, current.next)
@@ -98,7 +114,7 @@ class LinkedList {
 
     openLoop() {
         const map = new Map()
-        let current = this.head
+        let current = this.#head
 
         while(current.next !== null && !map.get(current.next)){
             map.set(current.next, current.next)
@@ -114,7 +130,7 @@ class LinkedList {
 
     intersect(otherList){
         const map = new Map()
-        let current = this.head.next
+        let current = this.#head.next
         while(current !== null){
             map.set(current, current)
             current = current.next
@@ -134,7 +150,7 @@ class LinkedList {
 
     seperate(otherList) {
         const map = new Map()
-        let current = this.head
+        let current = this.#head
         while(current.next !== null){
             map.set(current.next, current.next)
             current = current.next
@@ -152,7 +168,7 @@ class LinkedList {
     }
 
     printList() {
-        let current = this.head
+        let current = this.#head
         while(current.next !== null){
             console.log(`| ${current.data} | --> `)
             current = current.next
@@ -163,7 +179,7 @@ class LinkedList {
 
     length() {
         let count = 0
-        let current = this.head
+        let current = this.#head
         while (current.next !== null) {
             count += 1
             current = current.next
@@ -173,9 +189,9 @@ class LinkedList {
 }
 
 const head = new ListNode("head", null)
-const otherHead = new ListNode("other-head", null)
+// const otherHead = new ListNode("other-head", null)
 const myList = new LinkedList(head)
-const otherList = new LinkedList(otherHead)
+// const otherList = new LinkedList(otherHead)
 
 const node1 = new ListNode("node1", null)
 const node2 = new ListNode("node2", null)
@@ -183,31 +199,24 @@ const node3 = new ListNode("node3", null)
 const node4 = new ListNode("node4", null)
 const node5 = new ListNode("node5", null)
 const node6 = new ListNode("node6", null)
-const node7 = new ListNode("node7", node1)
+const node7 = new ListNode("node7", null)
 const node8 = new ListNode("node8", null)
 
 myList.add(node1)
 myList.add(node2)
 myList.add(node3)
 myList.add(node4)
-otherList.add(node5)
-otherList.add(node6)
-otherList.add(node7)
-otherList.add(node8)
+myList.add(node5)
+myList.add(node6)
+myList.add(node7)
+myList.add(node8)
 
 myList.printList()
-otherList.printList()
-console.log(otherList.intersect(myList))
-otherList.seperate(myList)
+myList.recFlip(myList.getHead(), null)
+
 myList.printList()
-otherList.printList()
 
-// myList.openLoop()
-// console.log(myList.hasLoop())
-// myList.printList()
 
-// myList.printList()
 
-// console.log(myList.length())
 
 
