@@ -51,6 +51,18 @@
             "outFiles": [
                 "${workspaceFolder}/**/*.js"
             ]
+        },
+        {
+            "type": "pwa-node",
+            "request": "launch",
+            "name": "stack",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/ds/stack.js",
+            "outFiles": [
+                "${workspaceFolder}/**/*.js"
+            ]
         }
     ]
 }
